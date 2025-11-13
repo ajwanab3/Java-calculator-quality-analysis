@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 public class CalculatorTest {
 
     // ------- Tests for add() -------
+// update trigger
 
     @Test
     public void testAddTwoPositiveNumbers() {
