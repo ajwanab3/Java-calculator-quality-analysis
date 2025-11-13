@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Calculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bad-calculator</a> &gt; <a href="index.source.html" class="el_package">edu.pnu.badcalc</a> &gt; <span class="el_source">Calculator.java</span></div><h1>Calculator.java</h1><pre class="source lang-java linenums">package edu.pnu.badcalc;
+
+import java.util.*;
+
+<span class="fc" id="L5">public class Calculator {</span>
+    public double last;
+
+    public double add(double a, double b) {
+<span class="fc" id="L9">        last = a + b;</span>
+<span class="fc" id="L10">        return last;</span>
+    }
+
+    public double subtract(double a, double b) {
+<span class="fc" id="L14">        last = a - b;</span>
+<span class="fc" id="L15">        return last;</span>
+    }
+
+    public double multiply(double a, double b) {
+<span class="nc" id="L19">        last = a * b;</span>
+<span class="nc" id="L20">        return last;</span>
+    }
+
+    public double divide(double a, double b) {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (b == 0) {</span>
+<span class="nc" id="L25">            throw new IllegalArgumentException(&quot;Division by zero is not allowed&quot;);</span>
+        }
+<span class="nc" id="L27">        last = a / b;</span>
+<span class="nc" id="L28">        return last;</span>
+    }
+
+    public long factorial(int n) {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (n &lt; 0) {</span>
+<span class="nc" id="L33">            throw new IllegalArgumentException(&quot;Factorial is not defined for negative numbers&quot;);</span>
+        }
+<span class="nc" id="L35">        long r = 1;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="nc" id="L37">            r *= i;</span>
+        }
+<span class="nc" id="L39">        return r;</span>
+    }
+
+    private int findOperatorIndex(String expr) {
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        for (int i = 1; i &lt; expr.length() - 1; i++) {</span>
+<span class="fc" id="L44">            char c = expr.charAt(i);</span>
+<span class="pc bpc" id="L45" title="7 of 8 branches missed.">            if (c == '+' || c == '-' || c == '*' || c == '/') {</span>
+<span class="fc" id="L46">                return i;</span>
+            }
+        }
+<span class="nc" id="L49">        return -1;</span>
+    }
+
+
+    public double parseAndCompute(String expr) {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (expr == null) {</span>
+<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;Expression cannot be null&quot;);</span>
+        }
+
+<span class="fc" id="L58">        String trimmed = expr.trim();</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (trimmed.isEmpty()) {</span>
+<span class="nc" id="L60">            throw new IllegalArgumentException(&quot;Expression cannot be empty&quot;);</span>
+        }
+
+<span class="fc" id="L63">        String[] t = trimmed.split(&quot;\\s+&quot;);</span>
+        double a;
+        double b;
+        String op;
+
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (t.length == 3) {</span>
+            // صيغة مثل: 1 + 1
+<span class="nc" id="L70">            a = Double.parseDouble(t[0]);</span>
+<span class="nc" id="L71">            op = t[1];</span>
+<span class="nc" id="L72">            b = Double.parseDouble(t[2]);</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        } else if (t.length == 1) {</span>
+            // صيغة مثل: 1+1 بدون مسافات
+<span class="fc" id="L75">            int opIndex = findOperatorIndex(trimmed);</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">            if (opIndex &lt;= 0 || opIndex &gt;= trimmed.length() - 1) {</span>
+<span class="nc" id="L77">                throw new IllegalArgumentException(&quot;Invalid expression format&quot;);</span>
+            }
+<span class="fc" id="L79">            a = Double.parseDouble(trimmed.substring(0, opIndex));</span>
+<span class="fc" id="L80">            op = String.valueOf(trimmed.charAt(opIndex));</span>
+<span class="fc" id="L81">            b = Double.parseDouble(trimmed.substring(opIndex + 1));</span>
+<span class="fc" id="L82">        } else {</span>
+<span class="nc" id="L83">            throw new IllegalArgumentException(&quot;Invalid expression format&quot;);</span>
+        }
+
+<span class="pc bpc" id="L86" title="4 of 5 branches missed.">        switch (op) {</span>
+            case &quot;+&quot;:
+<span class="fc" id="L88">                return add(a, b);</span>
+            case &quot;-&quot;:
+<span class="nc" id="L90">                return subtract(a, b);</span>
+            case &quot;*&quot;:
+<span class="nc" id="L92">                return multiply(a, b);</span>
+            case &quot;/&quot;:
+<span class="nc" id="L94">                return divide(a, b);</span>
+            default:
+<span class="nc" id="L96">                throw new IllegalArgumentException(&quot;Unsupported operator: &quot; + op);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
