@@ -77,7 +77,7 @@ public class CalculatorTest {
     @Test(expected = RuntimeException.class)
     public void testParseAndComputeInvalidExpressionThrows() {
         Calculator c = new Calculator();
-        c.parseAndCompute("1+2+3");   // تعبير غير مدعوم
+        c.parseAndCompute("1+2+3");
     }
 
     @Test(expected = RuntimeException.class)
